@@ -18,12 +18,13 @@ public class SocketCliente {
             //Esto es para ir canbiando de  puerto el que actualmete es 5555
             //for(int i = 1000 ; i > 5555; i++) {
                 System.out.println("Creando una conecxion");
-                InetSocketAddress addr = new InetSocketAddress("172.31.73.45",5555);
+            //172.31.73.45
+                InetSocketAddress addr = new InetSocketAddress("localhost",5555);
                 cliente.connect(addr);
                 InputStream is = cliente.getInputStream();
                 OutputStream os = cliente.getOutputStream();
 
-                String mensaje = "wowwwendrhdbndgdf";
+                String mensaje =  "10 * 4";
                 System.out.println("Enviando mensaje");
                 os.write(mensaje.getBytes());
                 System.out.println("Mensaje enviado");
