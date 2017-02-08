@@ -15,6 +15,7 @@ public class SocketCliente {
             Socket cliente = new Socket();
             DatagramSocket udp = new DatagramSocket();
 
+            //Esto es para ir canbiando de  puerto el que actualmete es 5555
             //for(int i = 1000 ; i > 5555; i++) {
                 System.out.println("Creando una conecxion");
                 InetSocketAddress addr = new InetSocketAddress("172.31.73.45",5555);
@@ -33,7 +34,7 @@ public class SocketCliente {
                 System.out.println("Terminado");
             //}
         }catch (IOException e){
-          //  e.printStackTrace();
+         e.printStackTrace();
         }
     }
 }
