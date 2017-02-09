@@ -15,25 +15,29 @@ public class SocketCliente {
             Socket cliente = new Socket();
             DatagramSocket udp = new DatagramSocket();
 
-            //Esto es para ir canbiando de  puerto el que actualmete es 5555
-            //for(int i = 1000 ; i > 5555; i++) {
                 System.out.println("Creando una conecxion");
             //172.31.73.45
                 InetSocketAddress addr = new InetSocketAddress("localhost",5555);
                 cliente.connect(addr);
-                InputStream is = cliente.getInputStream();
-                OutputStream os = cliente.getOutputStream();
+                InputStream is = cliente.getInputStream();//es para leer
+                OutputStream os = cliente.getOutputStream();// es para enviar
+                System.out.println("Creando socket del cliente");
 
-                String mensaje =  "10 * 4";
+            //Enviamos la operación al servidor tiene que ser exactamente el formato introducido
+                String mensaje =  "5 + 6";
                 System.out.println("Enviando mensaje");
                 os.write(mensaje.getBytes());
                 System.out.println("Mensaje enviado");
 
-                System.out.println("Creando socket del cliente");
-                cliente.close();
+            //Recivimos el resultado de la operación realizada en el servidor
+                byte [] mensajeRecivido= new byte[50];
+                is.read(mensajeRecivido);
+                System.out.println("Mensaje recivido : "+new String(mensajeRecivido));
 
+                //Cerramos cliente
+                cliente.close();
                 System.out.println("Terminado");
-            //}
+
         }catch (IOException e){
          e.printStackTrace();
         }

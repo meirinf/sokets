@@ -16,12 +16,13 @@ public class Servidor {
             ServerSocket serverSocket = new ServerSocket();
 
             System.out.println("Realizando el vinculo");
-            //0.0.0.0
+            //0.0.0.0 para recibir
             InetSocketAddress addr = new InetSocketAddress("localhost",5555);
 
             serverSocket.bind(addr);
             System.out.println("Aceptando conexiones");
 
+            //Aqui llamo a la clase hiloPetición
             while (guay) {
                 Socket newSocket = serverSocket.accept();
                 HiloPeticion hp = new HiloPeticion(newSocket);
