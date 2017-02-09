@@ -24,7 +24,7 @@ public class SocketCliente {
                 System.out.println("Creando socket del cliente");
 
             //Enviamos la operación al servidor tiene que ser exactamente el formato introducido
-                String mensaje =  "5 + 6";
+                String mensaje =  "5 * 6";
                 System.out.println("Enviando mensaje");
                 os.write(mensaje.getBytes());
                 System.out.println("Mensaje enviado");
