@@ -15,31 +15,31 @@ public class SocketCliente {
             Socket cliente = new Socket();
             DatagramSocket udp = new DatagramSocket();
 
-                System.out.println("Creando una conecxion");
+            System.out.println("Creando una conecxion");
             //172.31.73.45
-                InetSocketAddress addr = new InetSocketAddress("localhost",5555);
-                cliente.connect(addr);
-                InputStream is = cliente.getInputStream();//es para leer
-                OutputStream os = cliente.getOutputStream();// es para enviar
-                System.out.println("Creando socket del cliente");
+            InetSocketAddress addr = new InetSocketAddress("localhost",5555);
+            cliente.connect(addr);
+            InputStream is = cliente.getInputStream();//es para leer
+            OutputStream os = cliente.getOutputStream();// es para enviar
+            System.out.println("Creando socket del cliente");
 
             //Enviamos la operación al servidor tiene que ser exactamente el formato introducido
-                String mensaje =  "5 * 6";
-                System.out.println("Enviando mensaje");
-                os.write(mensaje.getBytes());
-                System.out.println("Mensaje enviado");
+            String mensaje =  "5 * 6";
+            System.out.println("Enviando mensaje");
+            os.write(mensaje.getBytes());
+            System.out.println("Mensaje enviado");
 
             //Recivimos el resultado de la operación realizada en el servidor
-                byte [] mensajeRecivido= new byte[50];
-                is.read(mensajeRecivido);
-                System.out.println("Mensaje recivido : "+new String(mensajeRecivido));
+            byte [] mensajeRecivido= new byte[is.available()];
+            is.read(mensajeRecivido);
+            System.out.println("Mensaje recivido : "+new String(mensajeRecivido));
 
-                //Cerramos cliente
-                cliente.close();
-                System.out.println("Terminado");
+            //Cerramos cliente
+            cliente.close();
+            System.out.println("Terminado");
 
         }catch (IOException e){
-         e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

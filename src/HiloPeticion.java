@@ -9,7 +9,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 /**
@@ -25,6 +28,7 @@ public class HiloPeticion  extends Thread{
     private static String reci;
 
 
+
     public HiloPeticion( Socket n) {
         newSocket = n;
     }
@@ -35,7 +39,7 @@ public class HiloPeticion  extends Thread{
             InputStream io = newSocket.getInputStream();
 
 
-            byte [] mensaje= new byte[50];
+            byte [] mensaje= new byte[io.available()];
             io.read(mensaje);//Es para leer
             reci = String.valueOf("Mensaje recibido : "+new String(mensaje));
             System.out.println("Mensaje recibido : "+new String(mensaje));
@@ -158,6 +162,9 @@ public class HiloPeticion  extends Thread{
         Text nodoValor = document.createTextNode(mensajeenviar); //Ingresamos la info
         nodoNombre.appendChild(nodoValor);
         raiz.appendChild(nodoNombre); //pegamos el elemento a la raiz "Documento"
+
+
+        //Falta poner la fecha Date data = new Date()
 
 
 
