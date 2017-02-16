@@ -19,8 +19,10 @@ public class HiloPeticion  extends Thread{
 
     private static FileWriter archivo;//nuestro archivo log
     private Socket newSocket = new Socket();
-    String mensajeenviar = "";
+    private String mensajeenviar = "";
     double resultado ;
+    private static String IPS;
+    private static String reci;
 
 
     public HiloPeticion( Socket n) {
@@ -35,7 +37,8 @@ public class HiloPeticion  extends Thread{
 
             byte [] mensaje= new byte[50];
             io.read(mensaje);//Es para leer
-            System.out.println("Mensaje recivido : "+new String(mensaje));
+            reci = String.valueOf("Mensaje recibido : "+new String(mensaje));
+            System.out.println("Mensaje recibido : "+new String(mensaje));
 
 
             OutputStream os = newSocket.getOutputStream();//Es para enviar
@@ -56,8 +59,10 @@ public class HiloPeticion  extends Thread{
                     System.out.println("Enviando mensaje");
                     os.write(mensajeenviar.getBytes());
                     System.out.println("Mensaje enviado");
-                    //Introducir en el log
-                    CrearLog(mensajeenviar);
+                    //Almaceno la IP de envio
+                    IPS = newSocket.getInetAddress().getHostAddress();
+                    System.out.println(newSocket.getInetAddress().getHostAddress()+" se le envia -> "+mensajeenviar);
+
                     break;
                 case '-':
                     //Imprimo
@@ -70,8 +75,9 @@ public class HiloPeticion  extends Thread{
                     System.out.println("Enviando mensaje");
                     os.write(mensajeenviar.getBytes());
                     System.out.println("Mensaje enviado");
-                    //Introducir en el log
-                    CrearLog(mensajeenviar);
+                    System.out.println(newSocket.getInetAddress().getHostAddress()+" se le envia -> "+mensajeenviar);
+                    //Almaceno la IP de envio
+                    IPS = newSocket.getInetAddress().getHostAddress();
                     break;
                 case '*':
                     //Imprimo
@@ -84,7 +90,9 @@ public class HiloPeticion  extends Thread{
                     System.out.println("Enviando mensaje");
                     os.write(mensajeenviar.getBytes());
                     System.out.println("Mensaje enviado");
-                    //Introducir en el log
+                    System.out.println(newSocket.getInetAddress().getHostAddress()+" se le envia -> "+mensajeenviar);
+                    //Almaceno la IP de envio
+                    IPS = newSocket.getInetAddress().getHostAddress();
                     CrearLog(mensajeenviar);
                     break;
                 case '/':
@@ -98,8 +106,8 @@ public class HiloPeticion  extends Thread{
                     System.out.println("Enviando mensaje");
                     os.write(mensajeenviar.getBytes());
                     System.out.println("Mensaje enviado");
-                    //Introducir en el log
-                    CrearLog(mensajeenviar);
+                    //Almaceno la IP de envio
+                    IPS = newSocket.getInetAddress().getHostAddress();
                     break;
                 //Avisa si es introducida una operacion no valida o un formato no valido
                 default: System.out.println("Operacion incorrecta ");
@@ -109,9 +117,6 @@ public class HiloPeticion  extends Thread{
                     System.out.println("Enviando mensaje");
                     os.write(mensajeenviar.getBytes());
                     System.out.println("Mensaje enviado");
-                    //Introducir en el log
-
-                    //CrearLog(newSocket.getInetAddress().getHostAddress()+" se le envia -> "+mensajeenviar);
             }
             System.out.println("Cerrando el socket");
             newSocket.close();
@@ -138,17 +143,23 @@ public class HiloPeticion  extends Thread{
 
         Element raiz = document.getDocumentElement();
 
-        Element nodoNombreCampo = document.createElement("ElementoHijoDeLaRaíz"); //creamos un nuevo elemento
-        Text nodoValorCampo = document.createTextNode("contenido del elemento hijo"); //Ingresamos la info
+        Element nodoNombreCampo = document.createElement("numeroIP"); //creamos un nuevo elemento
+        Text nodoValorCampo = document.createTextNode(IPS); //Ingresamos la info
         nodoNombreCampo.appendChild(nodoValorCampo);
         raiz.appendChild(nodoNombreCampo); //pegamos el elemento a la raiz "Documento"
 
-        /*//Pregunta el archivo existe, caso contrario crea uno con el nombre log.txt
-        if (new File("log.txt").exists()==false){archivo=new FileWriter(new File("log.txt"),false);}
-        archivo = new FileWriter(new File("log.txt"), true);
-        //Empieza a escribir en el archivo
-        archivo.write(mensajeenviar);
-        archivo.close(); //Se cierra el archivo*/
+        Element nodoNom = document.createElement("Operacion"); //creamos un nuevo elemento
+        Text nodoVal = document.createTextNode(reci); //Ingresamos la info
+        nodoNom.appendChild(nodoVal);
+        raiz.appendChild(nodoNom); //pegamos el elemento a la raiz "Documento"
+
+
+        Element nodoNombre = document.createElement("Resultado"); //creamos un nuevo elemento
+        Text nodoValor = document.createTextNode(mensajeenviar); //Ingresamos la info
+        nodoNombre.appendChild(nodoValor);
+        raiz.appendChild(nodoNombre); //pegamos el elemento a la raiz "Documento"
+
+
 
         Source source = new DOMSource(document);
         Result result = new StreamResult(new java.io.File("resultado.xml")); //nombre del archivo
